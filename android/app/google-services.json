@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "310946824096",
+    "project_id": "elhesa-42b95",
+    "storage_bucket": "elhesa-42b95.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:310946824096:android:58e067698e145b8e04aec5",
+        "android_client_info": {
+          "package_name": "com.lahan.attendance_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKo909KwNJLuLrH37EDorxt2hsFyplyR8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,54 @@
+rules_version = '2';
+
+// قواعد أمان Cloud Firestore لتطبيق متابعة حضور حصة ألحان
+// يجب نسخ هذه القواعد إلى Firebase Console -> Firestore Database -> Rules
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // دالة مساعدة: هل المستخدم الحالي مسجل دخول وله مستند في users/
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function isServiceUser() {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    // مستندات المستخدمين (الخدام والمديرين): كل خادم يقرأ بيانات الجميع
+    // لكن لا يستطيع تعديل أو إنشاء أو حذف إلا المدير
+    match /users/{userId} {
+      allow read: if isServiceUser();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // الشباب: أي خادم مسجل يقرأ، لكن الإضافة/التعديل/الحذف للمدير فقط
+    match /students/{studentId} {
+      allow read: if isServiceUser();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // الحضور: أي خادم مسجل يقرأ ويكتب (تسجيل الحضور متاح للجميع)
+    match /attendance/{recordId} {
+      allow read, create, update: if isServiceUser();
+      allow delete: if isAdmin();
+    }
+
+    // الافتقاد: أي خادم مسجل يقرأ ويضيف ملاحظات افتقاد جديدة
+    match /visits/{visitId} {
+      allow read, create, update: if isServiceUser();
+      allow delete: if isAdmin();
+    }
+
+    // إعدادات التطبيق المشتركة (رسالة واتساب): القراءة للجميع، التعديل للمدير فقط
+    match /app_settings/{docId} {
+      allow read: if isServiceUser();
+      allow write: if isAdmin();
+    }
+  }
+}

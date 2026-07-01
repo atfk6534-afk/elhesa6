@@ -1,0 +1,6 @@
+# ⚠️ هذا الملف لا يُرفع لنظام التحكم بالإصدارات عادة (موجود في .gitignore)
+# يجب إنشاؤه تلقائيًا عند فتح المشروع في Android Studio لأول مرة،
+# أو يدويًا عن طريق إضافة مسار Flutter SDK و Android SDK لديك كما يلي:
+#
+# flutter.sdk=/path/to/your/flutter
+# sdk.dir=/path/to/your/Android/sdk

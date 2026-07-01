@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 
 /// نموذج نشاط مخصص (يضيفه المدير)
